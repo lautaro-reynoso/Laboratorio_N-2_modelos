@@ -8,6 +8,8 @@ import Entities.Aircraft;
 import Entities.Entity;
 import Politicas.ServerSelection;
 import java.util.List;
+
+import resources.DurabilityCalculus;
 import resources.Report;
 import resources.Server;
 import resources.Table;
@@ -17,21 +19,20 @@ import resources.Table;
  * @author Familia
  */
 public class Arrival extends Event {
-    private ServerSelection policy;
 
-    public Arrival(double clock, Entity entity, ServerSelection policy) {
+    public Arrival(double clock, Entity entity) {
         super(clock, entity, 1);
-        this.policy = policy;
     }
 
-    public void planificate(FutureEventList fel, List<Server> server) {
+    public void planificate(FutureEventList fel, List<Server> server, ServerSelection policy) {
    
         Server s = policy.selectServer(server);
+        DurabilityCalculus d = new DurabilityCalculus();
          //Agregar tipo servidor para saber donde esta parada cada entidad a futuro
          Report.cantArr++;
          
         if(s.isBusy()){
-            
+
             Entity plane = this.getEntity();
             plane.setTime(this.getClock());
             s.getQueue().enqueue(plane); 
@@ -49,6 +50,7 @@ public class Arrival extends Event {
         else {
             //El servidor estaba desocupado, dejo de estar ocioso y pasa a estar ocupado, fin tiempo ocio medioOcio
             if (this.getClock()-Report.medioOcio>0){
+
                     if (Report.maxOcio<this.getClock()-Report.medioOcio){
                     Report.maxOcio=this.getClock()-Report.medioOcio;
                     }
@@ -56,6 +58,9 @@ public class Arrival extends Event {
                     Report.minOcio=this.getClock()-Report.medioOcio;
                     }
                 }
+            s.setDurability((float)d.NormalizationCalculateDurability(5,1));
+
+            
             Report.totalOcio=Report.totalOcio+(this.getClock()-Report.medioOcio);
             Report.medioOcio=0;
             //El servidor esta siendo ocupado, empieza el tiempo de transito
