@@ -19,7 +19,7 @@ public class EndOfSimulation extends Event{
     }
 
     @Override
-    public void planificate(FutureEventList fel, Server server) {
+    public void planificate(FutureEventList fel, List <Server> server) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

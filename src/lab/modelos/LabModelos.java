@@ -5,6 +5,8 @@
 package lab.modelos;
 
 import Entities.Aircraft;
+import Politicas.ServerSelection;
+
 import java.util.ArrayList;
 import java.util.List;
 import resources.Report;
@@ -21,14 +23,15 @@ public class LabModelos {
      */
     public static void main(String[] args) {
         
-    Server pista=new Server(16);
+    List<Server> pistas= new ArrayList<>();
     FutureEventList fel = new FutureEventList();
     fel.insert(new EndOfSimulation (40320, null, 3));
     fel.insert(new Arrival(0, new Aircraft(1,0)));
     double clock;
+   // ServerSelection s;
     Event eventoInminente = fel.imminent();
     while (!(eventoInminente instanceof EndOfSimulation)) {
-        eventoInminente.planificate(fel, pista);
+        eventoInminente.planificate(fel, pistas);
         clock=eventoInminente.getClock();
         eventoInminente = fel.imminent();
     } 

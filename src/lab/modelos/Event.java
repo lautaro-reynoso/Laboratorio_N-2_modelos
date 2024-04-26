@@ -5,6 +5,8 @@
 package lab.modelos;
 
 import Entities.Entity;
+import Politicas.ServerSelection;
+
 import java.util.List;
 import resources.Server;
 
@@ -36,5 +38,5 @@ public abstract class Event {
         return this.order;
     }
     
-    public abstract void planificate(FutureEventList fel, Server server);
+    public abstract void planificate(FutureEventList fel,List<Server> server);
 }

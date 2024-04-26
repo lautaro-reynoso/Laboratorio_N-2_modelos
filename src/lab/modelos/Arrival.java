@@ -17,12 +17,14 @@ import resources.Table;
  * @author Familia
  */
 public class Arrival extends Event {
+    private ServerSelection policy;
 
-    public Arrival(double clock, Entity entity) {
+    public Arrival(double clock, Entity entity, ServerSelection policy) {
         super(clock, entity, 1);
+        this.policy = policy;
     }
 
-    public void planificate(FutureEventList fel, List<Server> server, ServerSelection policy) {
+    public void planificate(FutureEventList fel, List<Server> server) {
    
         Server s = policy.selectServer(server);
          //Agregar tipo servidor para saber donde esta parada cada entidad a futuro
@@ -66,6 +68,14 @@ public class Arrival extends Event {
         
         fel.insert(new Arrival(this.getClock()+Table.ArrTime(Math.random()), new Aircraft (this.getEntity().getId()+1 ,0)));
         
+    }
+
+    
+
+    @Override
+    public void planificate(FutureEventList fel, List<Server> server) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'planificate'");
     }
 
    

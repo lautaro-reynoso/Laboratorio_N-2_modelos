@@ -13,14 +13,25 @@ public class Server {
 
     private Entity currentEntity;
 
+    private float Durability;
+
     private Queue queue;
     //Agregar tipo servidor para saber donde esta parada cada entidad a futuro
 
 
-    public Server(int id) {
+    public Server(int id,float Durability) {
+        this.Durability = Durability;
         this.id=id;
         this.queue= new Queue(16);
         this.currentEntity = null;
+    }
+
+    public float getDurability (){
+        return this.Durability;
+    }
+
+    public void setDurability (float Durability){
+        this.Durability = Durability;
     }
 
     public int getId() {

@@ -5,6 +5,8 @@
 package lab.modelos;
 
 import Entities.Entity;
+import Politicas.ServerSelection;
+
 import java.util.List;
 import resources.Report;
 import resources.Server;
@@ -21,10 +23,10 @@ public  class Departure extends Event {
         super(clock, entity, 2);
         //End of simulation va a tener orden 3
     }
-
-    public void planificate(FutureEventList fel, Server server) {
+  
+    public void planificate(FutureEventList fel, List<Server> server, ServerSelection policy) {
     
-        Server s = server;
+        Server s = policy.selectServer(server);
         
          if (s.getQueue().isEmpty()){
                  s.setCurrentEntity(null);
@@ -70,4 +72,13 @@ public  class Departure extends Event {
                 
          }
     }
+
+    @Override
+    public void planificate(FutureEventList fel, List<Server> server) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'planificate'");
+    }
+
+    
+    
 }
